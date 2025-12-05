@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - NLP_SERVICE_URL=http://nlp-service:8001
+      - COMPLAINTS_SERVICE_URL=http://complaints-service:8002
+    depends_on:
+      - complaints-service
+      - nlp-service
+    networks:
+      - healthnet
+
+  complaints-service:
+    build: ./complaints_service
+    container_name: complaints-service
+    ports:
+      - "8002:8002"
+    environment:
+      - COMPLAINTS_DB_PATH=/data/complaints.db
+    volumes:
+      - complaints_data:/data
+    networks:
+      - healthnet
+
+  nlp-service:
+    build: ./nlp_service
+    container_name: nlp-service
+    ports:
+      - "8001:8001"
+    networks:
+      - healthnet
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Звідки фронт буде ходити в Gateway (з браузера!)
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - gateway
+    networks:
+      - healthnet
+
+volumes:
+  complaints_data:
+
+networks:
+  healthnet:

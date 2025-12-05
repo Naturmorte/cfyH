@@ -1,0 +1,24 @@
+health-diary-mvp/
+├─ docker-compose.yml
+├─ README.md
+├─ INSTRUCTIONS.md
+├─ gateway/
+│  ├─ app.py
+│  ├─ requirements.txt
+│  └─ Dockerfile
+├─ complaints_service/
+│  ├─ app.py
+│  ├─ requirements.txt
+│  └─ Dockerfile
+├─ nlp_service/
+│  ├─ app.py
+│  ├─ requirements.txt
+│  └─ Dockerfile
+└─ frontend/
+   ├─ Dockerfile
+   ├─ package.json
+   ├─ vite.config.js
+   ├─ index.html
+   └─ src/
+      ├─ main.jsx
+      └─ App.jsx
